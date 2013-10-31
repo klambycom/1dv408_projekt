@@ -19,13 +19,15 @@ class FindNamespace extends CodeAnalysis {
   }
 
   public function runTests() {
-    // @todo runTests and addErrors should merge
-    if (count($this->namespaces) != 1) {
-      $this->addErrors($this->namespaces);
-    }
+    $nrOfNamespaces = count($this->namespaces);
 
-    if ($this->nrOfErrors() > 0)
-      $this->publish();
+    if ($nrOfNamespaces < 1) {
+      $this->publish(new Error($this->code, CodeErrorType::MissingNamespace));
+    } else if ($nrOfNamespaces > 1) {
+      foreach ($this->namespaces as $key => $val) {
+        $this->publish(new Error($this->code, CodeErrorType::MoreThanOneNamespace, $val->getLine()));
+      }
+    }
   }
 
   public function __toString() {
@@ -40,17 +42,5 @@ class FindNamespace extends CodeAnalysis {
       return $this->namespace->stmts;
 
     return $this->code->getParsedCode();
-  }
-
-  private function addErrors($namespaces) {
-    $nrOfNamespaces = count($namespaces);
-
-    if ($nrOfNamespaces < 1) {
-      $this->addError(0, "Missing namespace");
-    } else if ($nrOfNamespaces > 1) {
-      foreach ($namespaces as $key => $val) {
-        $this->addError($val->getLine());
-      }
-    }
   }
 }

@@ -49,12 +49,6 @@ class CodeAnalysisFacade extends CodeAnalysis {
     }
 
     return $count;
-
-    //return array_reduce($this->analysis, function ($acc, $x) {
-    //  $acc += $x->nrOfErrors();
-    //  return $acc;
-    //  //return ($acc + $x->nrOfErrors());
-    //}, 0);
   }
 
   public function debugGetErrors() {
@@ -67,26 +61,3 @@ class CodeAnalysisFacade extends CodeAnalysis {
     return $errors;
   }
 }
-
-/*
-$namespace = new \model\FindNamespace($code);
-$namespace->findErrors();
-echo $namespace;
-//var_dump($namespace->getCode());
-//var_dump($namespace->getErrors());
-echo "<hr>";
-
-$code->updateCode($namespace->getCode());
-$class = new \model\ClassName($code);
-$class->findErrors();
-//echo $class;
-var_dump($class->getErrors());
-echo "<hr>";
-
-echo $code->dumpParsedCode();
-echo "<hr>";
-$tmp = $code->getParsedCode();
-$tmp = $tmp[0];
-var_dump($tmp->stmts);
-echo "<hr>";
- */

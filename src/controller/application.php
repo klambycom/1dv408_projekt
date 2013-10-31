@@ -60,17 +60,14 @@ CODE;
   }
 
   public function doResult() {
-    $code = new \model\Code("Foobar.php", $this->testcode);
-    $test = new \model\CodeAnalysisFacade($code);
+    $code  = new \model\Code("Foobar.php", $this->testcode);
+    $tests = new \model\CodeAnalysisFacade($code);
 
-    $view = new \view\Result();
-    $test->subscribe($view);
+    $this->result = new \view\Result();
+    $tests->subscribe($this->result);
 
-    $test->runTests();
+    $tests->runTests();
 
-    return "<hr>
-            {$test->getNamespace()}<br>
-            {$test->getClassName()}
-            <hr>";
+    return $this->result->showRapport($tests);
   }
 }

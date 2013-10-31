@@ -26,22 +26,21 @@ class ClassName extends CodeAnalysis {
       // @todo Lower case
       $file = explode(".php", $this->code->getFileName());
       if ($this->__toString() != $file[0]) {
-        $this->addError($this->className->getLine(),
-          "Class name (" . $this->__toString() . ") and file name ($file) don't match");
+        $this->publish(new Error($this->code,
+                                 CodeErrorType::WrongFilenameOrClassname,
+                                 $this->className->getLine()));
       }
     } else if ($this->nrOfClasses > 1) {
       foreach ($this->classes as $key => $val) {
-        $this->addError($val->getLine());
+        $this->publish(new Error($this->code,
+                                 CodeErrorType::MoreThanOneClass,
+                                 $val->getLine()));
       }
     }
 
     if (count($this->code->getParsedCode()) > $this->nrOfClasses) {
-      // @todo
-      $this->addError(0, "Code outside class");
+      $this->publish(new Error($this->code, CodeErrorType::NonOOPCode));
     }
-
-    if ($this->nrOfErrors() > 0)
-      $this->publish();
   }
 
   public function getCode() {

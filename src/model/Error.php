@@ -2,30 +2,48 @@
 
 namespace model;
 
+final class CodeErrorType {
+  /*
+    CodeErrorType::MoreThanOneClass
+    CodeErrorType::WrongFilenameOrClassname
+    CodeErrorType::MissingNamespace
+    CodeErrorType::MoreThanOneNamespace
+    CodeErrorType::NonOOPCode
+   */
+
+  const MoreThanOneClass = 0;
+  const NonOOPCode = 1;
+  const WrongFilenameOrClassname = 2;
+  const MissingNamespace = 3;
+  const MoreThanOneNamespace = 4;
+
+  private function __construct() {}
+}
+
 class Error {
-  private $fileName;
-  private $row;
-  private $className;
   private $code;
+  private $errorType;
+  private $row;
 
-  public function __construct($className, $fileName, $row, $badCode) {
-    $this->fileName = $fileName;
-    $this->className = $className;
+  public function __construct(Code $code, $errorType, $row = 0) {
+    $this->code = $code;
+    $this->errorType = $errorType;
     $this->row = $row;
-    $this->code = $badCode;
   }
 
-  public function getClassName() {
-    return $this->className();
+  public function getFilename() {
+    return $this->code->getFileName();
   }
 
-  public function __toString(/*$format = ""*/) {
-    //$format = func_get_arg(0) or $format = "";
-    //if (empty($format)) {
-      return "$this->className [$this->filename], row $this->row: $this->code";
-    //}
+  public function getErrorType() {
+    return $this->errorType;
+  }
 
-    // @todo
-    //ex. string = "{filename} row {row}: {code} borde blablabla"
+  public function getRow() {
+    return $this->row;
+  }
+
+  public function getCode() {
+    return $this->code->getRow($this->row);
   }
 }

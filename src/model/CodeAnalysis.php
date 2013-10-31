@@ -6,37 +6,28 @@ require_once("model/Error.php");
 
 abstract class CodeAnalysis {
   private $listeners = array();
-  private $errors = array();
+  private $nrOfErrors;
   protected $code;
 
   public function __construct(Code $code) {
     $this->code = $code;
+    $this->nrOfErrors = 0;
   }
 
   public function nrOfErrors() {
-    return count($this->errors);
-  }
-
-  public function getErrors() {
-    return $this->errors;
+    return $this->nrOfErrors;
   }
 
   public function subscribe(ResultObserver  $listener) {
     $this->listeners[] = $listener;
   }
 
-  protected function publish() {
+  protected function publish(Error $error) {
+    $this->nrOfErrors += 1;
+
     foreach ($this->listeners as $key => $listener) {
-      $listener->showErrors($this);
+      $listener->error($error);
     }
-  }
-
-  protected function addError($row, $badCode = "") {
-    if (empty($badCode)) {
-      $badCode = $this->code->getRow($row);
-    }
-
-    $this->errors[] = new Error("classname", $this->code->getFileName(), $row, $badCode);
   }
 
   abstract public function runTests();

@@ -37,7 +37,7 @@ class Code {
   }
 
   public function getRow($row) {
-    return $this->raw[$row - 1];
+    return $this->raw[($row == 0) ? 0 : $row - 1];
   }
 
   public function filter($class) {
