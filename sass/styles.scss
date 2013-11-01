@@ -1,0 +1,77 @@
+// customize bootstrap variables here:
+@import "variables";
+@import "bootstrap";
+
+#error-list {
+  padding: 0;
+  list-style-type: none;
+
+  pre {
+    display: inline;
+  }
+  
+  li {
+    background-color: rgba(255, 99, 71, .05);
+    padding: 5px;
+    margin-bottom: 5px;
+  }
+
+  .row {
+    font-style: italic;
+  }
+
+  .file {
+    font-weight: bolder;
+  }
+
+  .type {
+    font-variant: small-caps;
+  }
+
+  li.summary {
+    background-color: rgba(255, 71, 71, .8);
+    font-weight: normal;
+    color: white;
+  }
+}
+
+#login-btn {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-lg;
+}
+
+#user-info {
+  @extend .col-md-3;
+
+  img {
+    border-radius: 15px;
+    width: 100%;
+  }
+
+  h1, h2 {
+    color: rgb(100, 100, 100);
+    font-weight: lighter;
+  }
+
+  h2 {
+    font-size: 1.8em;
+  }
+}
+
+#repositories {
+  @extend .col-md-9;
+}
+
+.repository {
+  @extend .panel;
+  @extend .panel-default;
+
+  .title {
+    @extend .panel-heading;
+  }
+
+  .body {
+    @extend .panel-body;
+  }
+}
