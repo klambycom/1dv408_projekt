@@ -17,15 +17,17 @@ class ClassName extends CodeAnalysis {
     $this->nrOfClasses = count($this->classes);
 
     if ($this->nrOfClasses == 1) {
-      $this->className = $classes[0];
+      $this->className = reset($this->classes);
     }
   }
 
   public function runTests() {
     if ($this->nrOfClasses == 1) {
-      // @todo Lower case
-      $file = explode(".php", $this->code->getFileName());
-      if ($this->__toString() != $file[0]) {
+      $file = array();
+      preg_match('/(.*\/)*([a-zA-Z]*)(\..*)*\.php/',
+                 $this->code->getFileName(),
+                 $file);
+      if (strtolower($this->__toString()) != strtolower($file[2])) {
         $this->publish(new Error($this->code,
                                  CodeErrorType::WrongFilenameOrClassname,
                                  $this->className->getLine()));
@@ -38,7 +40,10 @@ class ClassName extends CodeAnalysis {
       }
     }
 
-    if (count($this->code->getParsedCode()) > $this->nrOfClasses) {
+    $nrOfStmtsOutsideClass = count($this->code->getParsedCode()) -
+            count($this->code->filter('\PHPParser_Node_Expr_Include'));
+
+    if ($nrOfStmtsOutsideClass > $this->nrOfClasses) {
       $this->publish(new Error($this->code, CodeErrorType::NonOOPCode));
     }
   }

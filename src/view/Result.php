@@ -66,43 +66,60 @@ class Result extends Application implements \model\ResultObserver {
 
       case \model\CodeErrorType::NonOOPCode:
         return $this->nonOOPCodeError($error);
+
+      case \model\CodeErrorType::MethodTooLong:
+        return $this->methodTooLongError($error);
+
+      case \model\CodeErrorType::LineTooLong:
+        return $this->lineTooLongError($error);
     }
   }
 
   private function moreThanOneClassError(\model\Error $error) {
     return "<li><span class='type'>Class error:</span> mer än en klass,
-            {$this->errorInfo($error)}.</li>";
+            oväntad {$this->errorInfo($error)}.</li>";
   }
 
   private function wrongFilenameOrClassnameError(\model\Error $error) {
     return "<li><span class='type'>Class error:</span> filnamn och klass
-            matchar inte, {$this->errorInfo($error)}.</li>";
+            matchar inte, oväntad {$this->errorInfo($error)}.</li>";
   }
 
   private function missingNamespaceError(\model\Error $error) {
-    return "<li><span class='type'>Namespace error:</span> det finns ingen
-            namespace, i <span class='file'>{$error->getFilename()}</span>
+    return "<li><span class='type'>Namespace error:</span> det finns inget
+            namespace, i <span class='file'>{$error->getFilename()}</span>.
             </li>";
   }
 
   private function moreThanOneNamespaceError(\model\Error $error) {
     return "<li><span class='type'>Namespace error:</span> mer än ett
-            namespace, {$this->errorInfo($error)}.</li>";
+            namespace, oväntad {$this->errorInfo($error)}.</li>";
   }
 
   private function nonOOPCodeError(\model\Error $error) {
     return "<li><span class='type'>OOP error:</span> det finns kod som inte är
-            objekt orienterad, i <span class='file'>{$error->getFilename()}
-            </span>.</li>";
+            objekt-orienterad, i
+            <span class='file'>{$error->getFilename()}</span>.</li>";
+  }
+
+  private function methodTooLongError(\model\Error $error) {
+    return "<li><span class='type'>Method error:</span> en metod bör vara
+            mycket mindre än 30 rader, i {$this->errorInfo($error)}.</li>";
+  }
+
+  private function lineTooLongError(\model\Error $error) {
+    return "<li><span class='type'>Length error:</span> en rad får inte
+            vara mer än 80 tecken lång, raden {$this->errorInfo($error)}.
+            </li>";
   }
 
   private function errorInfo(\model\Error $error) {
-    $code = $error->getCode();
+    $code = trim($error->getCode());
     $file = $error->getFilename();
     $row = $error->getRow();
 
-    return "unexpected '<pre>$code</pre>' i <span class='file'>$file</span> på
-            rad <span class='row'>$row</span>";
+    return "'<pre>$code</pre>' i <span class='file'>$file</span> på
+            rad <span class='row-nr'>$row</span>";
   }
 
   private function repositoryInfo(\model\Repository $repo) {
@@ -113,13 +130,11 @@ class Result extends Application implements \model\ResultObserver {
         {$repo->getName()}</a>";
 
     return "<div id='repository'>
-              <div class='page-header'>
-                <h1>{$githubUser} / <strong>{$githubRepo}</strong></h1>
-                <p class='lead'>
-                  Pushades senast
-                  <span class='pushed-at'>{$repo->getPushedAt()}</span>
-                </p>
-              </div>
+              <h2>{$githubUser} / <strong>{$githubRepo}</strong></h2>
+              <p>
+                Pushades senast
+                <span class='pushed-at'>{$repo->getPushedAt()}</span>
+              </p>
             </div>";
   }
 }

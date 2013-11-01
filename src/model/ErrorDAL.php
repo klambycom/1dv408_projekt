@@ -33,7 +33,7 @@ class ErrorDAL extends DataAccessLayer {
     $this->errors[] = $error;
   }
 
-  public function remove($errors) {
+  public function removeAll($errors) {
     $remove = "DELETE FROM `error` WHERE `repository_id` = :id AND `filename` = :filename";
 
     $files = array_unique(array_map(function ($x) {
@@ -96,7 +96,7 @@ class ErrorDAL extends DataAccessLayer {
             )";
 
     if (!empty($this->errors)) {
-      $this->remove($this->errors);
+      $this->removeAll($this->errors);
 
       foreach ($this->errors as $error) {
         $query = $this->pdo->prepare($add);

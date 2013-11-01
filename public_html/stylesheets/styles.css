@@ -7642,43 +7642,44 @@ td.visible-print {
 /* line 9, ../../sass/styles.scss */
 #error-list pre {
   display: inline;
+  padding: 1px;
 }
-/* line 13, ../../sass/styles.scss */
+/* line 14, ../../sass/styles.scss */
 #error-list li {
   background-color: rgba(255, 99, 71, 0.05);
   padding: 5px;
   margin-bottom: 5px;
 }
-/* line 19, ../../sass/styles.scss */
-#error-list .row {
+/* line 20, ../../sass/styles.scss */
+#error-list .row-nr {
   font-style: italic;
 }
-/* line 23, ../../sass/styles.scss */
+/* line 24, ../../sass/styles.scss */
 #error-list .file {
   font-weight: bolder;
 }
-/* line 27, ../../sass/styles.scss */
+/* line 28, ../../sass/styles.scss */
 #error-list .type {
   font-variant: small-caps;
 }
-/* line 31, ../../sass/styles.scss */
+/* line 32, ../../sass/styles.scss */
 #error-list li.summary {
   background-color: rgba(255, 71, 71, 0.8);
   font-weight: normal;
   color: white;
 }
 
-/* line 47, ../../sass/styles.scss */
+/* line 48, ../../sass/styles.scss */
 #user-info img {
   border-radius: 15px;
   width: 100%;
 }
-/* line 52, ../../sass/styles.scss */
+/* line 53, ../../sass/styles.scss */
 #user-info h1, #user-info h2 {
   color: #646464;
   font-weight: lighter;
 }
-/* line 57, ../../sass/styles.scss */
+/* line 58, ../../sass/styles.scss */
 #user-info h2 {
   font-size: 1.8em;
 }

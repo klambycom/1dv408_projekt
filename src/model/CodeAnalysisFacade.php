@@ -5,6 +5,8 @@ namespace model;
 require_once("../src/model/CodeAnalysis.php");
 require_once("../src/model/FindNamespace.php");
 require_once("../src/model/ClassName.php");
+require_once("../src/model/MethodLength.php");
+require_once("../src/model/LineLength.php");
 
 class CodeAnalysisFacade extends CodeAnalysis {
   private $analysises = array();
@@ -18,7 +20,8 @@ class CodeAnalysisFacade extends CodeAnalysis {
     $this->code->updateCode($this->analysises[0]->getCode());
 
     $this->analysises[1] = new ClassName($code);
-    $this->code->updateCode($this->analysises[1]->getCode());
+    $this->analysises[2] = new MethodLength($code);
+    $this->analysises[3] = new LineLength($code);
   }
 
   public function runTests() {

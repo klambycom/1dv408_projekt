@@ -9,6 +9,8 @@ final class CodeErrorType {
     CodeErrorType::MissingNamespace
     CodeErrorType::MoreThanOneNamespace
     CodeErrorType::NonOOPCode
+    CodeErrorType::MethodTooLong
+    CodeErrorType::LineTooLong
    */
 
   const MoreThanOneClass = 0;
@@ -16,6 +18,8 @@ final class CodeErrorType {
   const WrongFilenameOrClassname = 2;
   const MissingNamespace = 3;
   const MoreThanOneNamespace = 4;
+  const MethodTooLong = 5;
+  const LineTooLong = 6;
 
   private function __construct() {}
 }

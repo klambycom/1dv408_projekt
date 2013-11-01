@@ -36,5 +36,3 @@ class Application {
     return $this->html('404', 'Sidan hittades inte');
   }
 }
-
-echo "hej";
