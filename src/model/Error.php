@@ -21,9 +21,9 @@ final class CodeErrorType {
 }
 
 class Error {
-  private $code;
-  private $errorType;
-  private $row;
+  protected $code;
+  protected $errorType;
+  protected $row;
 
   public function __construct(Code $code, $errorType, $row = 0) {
     $this->code = $code;

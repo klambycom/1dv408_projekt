@@ -2,7 +2,7 @@
 
 namespace model;
 
-require_once("model/Settings.php");
+require_once("../src/model/Settings.php");
 
 abstract class DataAccessLayer {
   protected $pdo;

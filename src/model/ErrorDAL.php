@@ -2,9 +2,10 @@
 
 namespace model;
 
-require_once("model/Error.php");
-require_once("model/Repository.php");
-require_once("model/DataAccessLayer.php");
+require_once("../src/model/Error.php");
+require_once("../src/model/SimpleError.php");
+require_once("../src/model/Repository.php");
+require_once("../src/model/DataAccessLayer.php");
 
 class ErrorDAL extends DataAccessLayer {
   private $repository;
@@ -46,9 +47,36 @@ class ErrorDAL extends DataAccessLayer {
     }
   }
 
-  public function find(Repository $repository) {
-    // Error(Code $code, $errorType, $row = 0) or
-    // SimpleError($filename, $error_type, $row, $code)
+  public function deleteFiles($files) {
+    foreach ($files as $file) {
+      $query = $this->pdo->prepare("DELETE FROM `error`
+                                    WHERE `repository_id` = :id AND
+                                          `filename` = :filename");
+
+      $query->execute(array("id"       => $this->repository->getId(),
+                            "filename" => $file));
+    }
+  }
+
+  public function all() {
+    $query = $this->pdo->prepare("SELECT
+                                    `filename`,
+                                    `error_type`,
+                                    `row`,
+                                    `code`
+                                  FROM `error` WHERE `repository_id` = :id");
+    $query->execute(array("id" => $this->repository->getId()));
+    $result = $query->fetchAll(\PDO::FETCH_FUNC, function ($filename,
+                                                           $error_type,
+                                                           $row,
+                                                           $code) {
+      return new SimpleError($filename, $error_type, $row, $code);
+    });
+
+    if ($query->rowCount() < 1)
+      throw new \Exception("no matching repository");
+
+    return $result;
   }
 
   public function __destruct() {

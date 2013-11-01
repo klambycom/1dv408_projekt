@@ -2,7 +2,7 @@
 
 namespace model;
 
-require_once("model/CodeAnalysis.php");
+require_once("../src/model/CodeAnalysis.php");
 
 // @todo Change name to FindClass
 class ClassName extends CodeAnalysis {

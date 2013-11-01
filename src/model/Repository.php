@@ -2,11 +2,10 @@
 
 namespace model;
 
-require_once("model/Commit.php");
-require_once("model/RepositoryDAL.php");
-require_once("model/ResultObserver.php");
-require_once("model/CodeAnalysisFacade.php");
-require_once("model/ErrorDAL.php");
+require_once("../src/model/Commit.php");
+require_once("../src/model/ResultObserver.php");
+require_once("../src/model/CodeAnalysisFacade.php");
+require_once("../src/model/ErrorDAL.php");
 
 class Repository implements ResultObserver {
   private $id;
@@ -32,12 +31,6 @@ class Repository implements ResultObserver {
     $this->pushed_at = $pushed_at;
 
     $this->errorDAL = new ErrorDAL($this);
-
-    // @todo Maybe should be in controller
-    if ($master != "" && $ref != "") {
-      $rd = new RepositoryDAL();
-      $rd->createOrUpdate($this);
-    }
   }
 
   /**
@@ -49,13 +42,8 @@ class Repository implements ResultObserver {
 
   public function addCommit(Commit $commit) {
     $commit->setRepositoryInformation("{$this->owner}/{$this->name}", $this->master);
+    $this->errorDAL->deleteFiles($commit->getRemovedFiles());
     $this->commits[] = $commit;
-
-    // @todo Move out from this to controller probebly, so i can use it in view 
-    //       to, when that is needed.
-    $facade = new CodeAnalysisFacade($commit->getCode());
-    $facade->subscribe($this);
-    $facade->runTests();
   }
 
   public function tmpGetCode() {
@@ -86,11 +74,5 @@ class Repository implements ResultObserver {
 
   public function getPushedAt() {
     return $this->pushed_at;
-  }
-
-  public function __toString() {
-    return "<b>{$this->owner}/{$this->name}</b> Id: {$this->id},
-            Master: {$this->master}, Created at: {$this->created_at},
-            Pushed at: {$this->pushed_at} " . implode("", $this->commits);
   }
 }

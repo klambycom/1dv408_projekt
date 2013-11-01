@@ -2,7 +2,7 @@
 
 namespace model;
 
-require_once("model/Error.php");
+require_once("../src/model/Error.php");
 
 class ErrorList {
   private $errors;

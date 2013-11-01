@@ -2,7 +2,7 @@
 
 namespace model;
 
-require_once("model/Code.php");
+require_once("../src/model/Code.php");
 
 class Commit {
   private $id;
@@ -16,7 +16,7 @@ class Commit {
   public function __construct($id, $timestamp, $added, $removed, $modified) {
     $this->id = $id;
     $this->timestamp = $timestamp;
-    $this->removed = $removed; // @todo Remove errors if file is removed
+    $this->removed = $removed;
     $this->changes = array_merge($added, $modified);
   }
 
@@ -33,9 +33,10 @@ class Commit {
     $url = "https://raw.github.com/{$this->repository}/{$this->branch}/";
 
     foreach ($this->changes as $file) {
-      // @todo Check if php
-      $raw = file_get_contents("{$url}{$file}");
-      $code = new  \model\Code($file, $raw);
+      if (\preg_match('/(.*)\.php/', $file)) {
+        $raw = file_get_contents("{$url}{$file}");
+        $code[] = new \model\Code($file, $raw);
+      }
     }
 
     return $code;

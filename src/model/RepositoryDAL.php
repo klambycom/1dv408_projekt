@@ -2,8 +2,8 @@
 
 namespace model;
 
-require_once("model/Repository.php");
-require_once("model/DataAccessLayer.php");
+require_once("../src/model/Repository.php");
+require_once("../src/model/DataAccessLayer.php");
 
 class RepositoryDAL extends DataAccessLayer {
   public function setup() {
@@ -35,6 +35,40 @@ class RepositoryDAL extends DataAccessLayer {
                           $result["private"],
                           $result["created_at"],
                           $result["pushed_at"]);
+  }
+
+  public function findByName($name) {
+    $query = $this->pdo->prepare("SELECT * FROM `repository` WHERE `name` = :name LIMIT 1");
+    $query->execute(array("name" => $name));
+    $result = $query->fetch(\PDO::FETCH_ASSOC);
+
+    if ($query->rowCount() < 1)
+      throw new \Exception("no matching repository");
+
+    return new Repository($result["id"],
+                          $result["name"],
+                          $result["owner"],
+                          $result["private"],
+                          $result["created_at"],
+                          $result["pushed_at"]);
+  }
+
+  public function findAllByOwner(User $user) {
+    $query = $this->pdo->prepare("SELECT * FROM `repository` WHERE `owner` = :owner");
+    $query->execute(array("owner" => $user->getUsername()));
+    $result = $query->fetchAll(\PDO::FETCH_FUNC, function ($id,
+                                                           $name,
+                                                           $owner,
+                                                           $private,
+                                                           $created_at,
+                                                           $pushed_at) {
+      return new Repository($id, $name, $owner, $private, $created_at, $pushed_at);
+    });
+
+    if ($query->rowCount() < 1)
+      throw new \Exception("no matching repository");
+
+    return $result;
   }
 
   public function createOrUpdate(Repository $repository) {

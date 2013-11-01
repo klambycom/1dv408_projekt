@@ -2,33 +2,44 @@
 
 namespace view;
 
-require_once("view/application.php");
-
 class Application {
-  private $routes = array();
-
-  public function __construct() {
-    $this->routes["/"] = array('controller' => 'Application',
-                               'action' => 'doFrontPage');
+  public function getPage() {
+    return isset($_GET['page']) ? $_GET['page'] : '';
   }
 
-  public function isFirstPage() {
-    return empty($_GET['page']);
+  public function getController() {
+    return isset($_GET['controller']) ? $_GET['controller'] : '';
   }
 
-  public function showHeader($title = "") {
+  public function html($content, $title = "") {
     return "<!doctype html>
             <html lang='sv'>
             <head>
               <meta charset='utf-8'>
               <title>$title - ?</title>
-              <link rel='stylesheet' href='stylesheet.css'>
+              <link rel='stylesheet' href='/stylesheets/styles.css' />
             </head>
-            <body>";
-  }
+            <body>
+              <div class='container'>
+                <div class='page-header'>
+                  <h1>Namnet</h1>
+                  <p class='lead'>Mer text sen</p>
+                </div>
 
-  public function showFooter() {
-    return "</body>
+                $content
+              </div>
+            </body>
             </html>";
   }
+
+  public function notFound(){
+    return $this->html('404', 'Sidan hittades inte');
+  }
 }
+/*
+<link href='/stylesheets/screen.css' media='screen, projection' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/print.css' media='print' rel='stylesheet' type='text/css' />
+<!--[if IE]>
+<link href='/stylesheets/ie.css' media='screen, projection' rel='stylesheet' type='text/css' />
+<![endif]-->
+ */

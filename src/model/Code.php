@@ -2,8 +2,6 @@
 
 namespace model;
 
-require_once("../vendor/PHPParser/bootstrap.php");
-
 class Code {
   private $code;
   private $filename;

@@ -2,9 +2,9 @@
 
 namespace model;
 
-require_once("model/CodeAnalysis.php");
-require_once("model/FindNamespace.php");
-require_once("model/ClassName.php");
+require_once("../src/model/CodeAnalysis.php");
+require_once("../src/model/FindNamespace.php");
+require_once("../src/model/ClassName.php");
 
 class CodeAnalysisFacade extends CodeAnalysis {
   private $analysises = array();

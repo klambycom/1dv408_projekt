@@ -2,7 +2,7 @@
 
 namespace model;
 
-require_once("model/Error.php");
+require_once("../src/model/Error.php");
 
 abstract class CodeAnalysis {
   private $listeners = array();
