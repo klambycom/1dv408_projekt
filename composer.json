@@ -1,6 +1,7 @@
 {
 	"require": {
-		"knplabs/github-api": "*"
+		"knplabs/github-api": "*",
+        "nikic/php-parser": "0.9.4"
 	},
 	"minimum-stability": "dev"
 }
