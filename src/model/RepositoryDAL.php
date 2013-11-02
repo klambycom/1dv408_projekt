@@ -83,6 +83,17 @@ class RepositoryDAL extends DataAccessLayer {
     }
   }
 
+  public function nrOfErrors($name) {
+    $query = $this->pdo->prepare("SELECT COUNT(*) AS rows FROM `repository`
+                                  INNER JOIN `error`
+                                  ON `repository`.`id` = `error`.`repository_id`
+                                  WHERE `repository`.`name` = :name");
+    $query->execute(array("name" => $name));
+    $result = $query->fetch(\PDO::FETCH_ASSOC);
+
+    return $result["rows"];
+  }
+
   private function create(Repository $repository) {
     $query = $this->pdo->prepare("INSERT INTO `repository` (
                                     `id`,

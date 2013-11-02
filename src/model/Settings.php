@@ -12,19 +12,19 @@ class Settings {
   public function __construct() {
     // @todo Read settings file
 
-    /*
     $this->pdo_provider = "mysql";
     $this->pdo_host = "localhost";
     $this->pdo_database = "database";
     $this->pdo_username = "1dv408";
     $this->pdo_password = "mypassword";
-     */
 
+    /*
     $this->pdo_provider = "mysql";
     $this->pdo_host = "mysql462.loopia.se";
     $this->pdo_database = "klamby_com";
     $this->pdo_username = "1dv408@k90053";
     $this->pdo_password = "ws1fur2";
+     */
   }
 
   public function getPDO() {
@@ -33,12 +33,12 @@ class Settings {
   }
 
   public function githubId() {
-    return '603ea2d8774629c7071e';
-    //return '8cd562fe9a10f5c32152';
+    //return '603ea2d8774629c7071e';
+    return '8cd562fe9a10f5c32152';
   }
 
   public function githubToken() {
-    return '446498a44fd6d4a9c49326db45f67a13b7c19432';
-    //return '565485de9321c5c7fdcefb7dea2326ad4f69fd95';
+    //return '446498a44fd6d4a9c49326db45f67a13b7c19432';
+    return '565485de9321c5c7fdcefb7dea2326ad4f69fd95';
   }
 }

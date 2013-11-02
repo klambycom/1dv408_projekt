@@ -69,9 +69,13 @@ class Application {
       $repository->addCommit($c);
 
       foreach ($c->getCode() as $code) {
-        $facade = new \model\CodeAnalysisFacade($code);
-        $facade->subscribe($repository);
-        $facade->runTests();
+        try {
+          $facade = new \model\CodeAnalysisFacade($code);
+          $facade->subscribe($repository);
+          $facade->runTests();
+        } catch (\Exception $e) {
+          // do nothing
+        }
       }
     }
 
@@ -79,6 +83,17 @@ class Application {
   }
 
   private function getPicture($repoName) {
-    return $repoName;
+    $rd = new \model\RepositoryDAL();
+    $nrOfErrors = $rd->nrOfErrors($repoName);
+
+    if ($nrOfErrors > 0) {
+      $file = 'images/Sad.png';
+    } else {
+      $file = 'images/Happy.png';
+    }
+
+    $size = getimagesize($file);
+    header('Content-type: '.$size['mime']);
+    readfile($file);
   }
 }

@@ -14,6 +14,9 @@ class CodeAnalysisFacade extends CodeAnalysis {
   private $class;
 
   public function __construct(Code $code) {
+    if (preg_match('/(.*\/)*(index|default){1}\.php/', $code->getFileName()))
+      throw new \Exception();
+
     parent::__construct($code);
 
     $this->analysises[0] = new FindNamespace($code);

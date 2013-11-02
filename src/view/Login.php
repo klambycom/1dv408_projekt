@@ -68,6 +68,7 @@ class Login extends Application {
     return "<div class='repository'>
               <div class='title'>
                 <h3>
+                  <img src='/?controller={$repo->getName()}.png'>
                   <a href='/?controller=resultat&page={$repo->getName()}'>
                   {$repo->getName()}
                   </a>
