@@ -111,7 +111,7 @@ class Application {
   }
 
   /**
-   * Show a image depending on nr of errors
+   * Show a image depending on nr of errors in repository
    * @param string $repoName
    */
   private function getPicture($repoName) {
