@@ -11,15 +11,29 @@ require_once("../src/view/Github.php");
 require_once("../src/model/RepositoryDAL.php");
 
 class Application {
+  /**
+   * @var \view\Application
+   */
   private $view;
 
+  /**
+   * @var \view\Github
+   */
+  private $github;
+
+  /**
+   * Create Application and Github view
+   */
   public function __construct() {
     $this->view = new \view\Application();
+    $this->github = new \view\Github();
   }
 
+  /**
+   * @return HTML depending on controller and page
+   */
   public function doRoute() {
-    // @todo Check IP too
-    if (isset($_POST['payload'])) {
+    if ($this->github->isUsedCorrect()) {
       return $this->handlePayload();
     } else if (\preg_match('/(.*)\.png/', $this->view->getController(), $pic)) {
       return $this->getPicture($pic[1]);
@@ -28,6 +42,9 @@ class Application {
     }
   }
 
+  /**
+   * @return HTML depending on controller
+   */
   private function route() {
     switch ($this->view->getController()) {
     case '':
@@ -45,22 +62,14 @@ class Application {
     return $controller->doRoute();
   }
 
+  /**
+   * Handle data from Github
+   * @return String Don't know why, but feels good when I test the code.
+   */
   private function handlePayload() {
-    $github = new \view\Github();
+    $repository = $this->createRepository();
 
-    $repository = new \model\Repository($github->getId(),
-                                        $github->getName(),
-                                        $github->getOwner(),
-                                        $github->isPrivate(),
-                                        $github->getCreatedAt(),
-                                        $github->getPushedAt(),
-                                        $github->getMaster(),
-                                        $github->getRefBranch());
-
-    $rd = new \model\RepositoryDAL();
-    $rd->createOrUpdate($repository);
-
-    foreach ($github->getCommitsJson() as $commit) {
+    foreach ($this->github->getCommitsJson() as $commit) {
       $c = new \model\Commit($commit->{'id'},
                              $commit->{'timestamp'},
                              $commit->{'added'},
@@ -82,6 +91,29 @@ class Application {
     return "Tack!";
   }
 
+  /**
+   * @return \model\Repository Created from data from Github
+   */
+  private function createRepository() {
+    $repository = new \model\Repository($this->github->getId(),
+                                        $this->github->getName(),
+                                        $this->github->getOwner(),
+                                        $this->github->isPrivate(),
+                                        $this->github->getCreatedAt(),
+                                        $this->github->getPushedAt(),
+                                        $this->github->getMaster(),
+                                        $this->github->getRefBranch());
+
+    $rd = new \model\RepositoryDAL();
+    $rd->createOrUpdate($repository);
+
+    return $repository;
+  }
+
+  /**
+   * Show a image depending on nr of errors
+   * @param string $repoName
+   */
   private function getPicture($repoName) {
     $rd = new \model\RepositoryDAL();
     $nrOfErrors = $rd->nrOfErrors($repoName);
