@@ -64,7 +64,14 @@ class Repository implements ResultObserver {
    * @param string $ref
    * @throws Exception if not pushed to master branch
    */
-  public function __construct($id, $name, $owner, $private, $created_at, $pushed_at, $master = "", $ref = "") {
+  public function __construct($id,
+                              $name,
+                              $owner,
+                              $private,
+                              $created_at,
+                              $pushed_at,
+                              $master = "",
+                              $ref = "") {
     if ("refs/heads/$master" != $ref && $master != "")
       throw new \Exception("Didn't push to $master");
 
