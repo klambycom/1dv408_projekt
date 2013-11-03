@@ -10,7 +10,8 @@ class AuthenticateUser extends User {
    */
   public function __construct($code) {
     $matches = array();
-    preg_match('/access_token=(.*)&scope=(.*)&token_type=(.*)/', $result, $matches);
+    preg_match('/access_token=(.*)&scope=(.*)&token_type=(.*)/',
+               $result, $matches);
 
     if (empty($matches))
       throw new \Exception();
