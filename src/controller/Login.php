@@ -9,12 +9,18 @@ require_once("../src/model/RepositoryDAL.php");
 require_once("../src/model/Settings.php");
 
 class Login {
+  /**
+   * @var \view\Login
+   */
   private $view;
 
   public function __construct() {
     $this->view = new \view\Login();
   }
 
+  /**
+   * @return string
+   */
   public function doRoute() {
     switch ($this->view->getPage()) {
       case '':
@@ -25,6 +31,9 @@ class Login {
     }
   }
 
+  /**
+   * @return string
+   */
   public function doFirstPage() {
     if ($this->view->authCodeIsSet()) {
       try {
