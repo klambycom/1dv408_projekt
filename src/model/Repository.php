@@ -8,16 +8,62 @@ require_once("../src/model/CodeAnalysisFacade.php");
 require_once("../src/model/ErrorDAL.php");
 
 class Repository implements ResultObserver {
+  /**
+   * @var int
+   */
   private $id;
+
+  /**
+   * @var string
+   */
   private $name;
+
+  /**
+   * @var string
+   */
   private $owner;
+
+  /**
+   * @var boolean
+   */
   private $private;
+
+  /**
+   * @var string
+   */
   private $master;
+
+  /**
+   * @var int
+   */
   private $created_at;
+
+  /**
+   * @var int
+   */
   private $pushed_at;
+
+  /**
+   * @var \model\Commit
+   */
   private $commits;
+
+  /**
+   * @var \model\ErrorDAL
+   */
   private $errorDAL;
 
+  /**
+   * @param int $id
+   * @param string $name
+   * @param string $owner
+   * @param boolean $private
+   * @param int $created_at
+   * @param int $pushed_at
+   * @param string $master
+   * @param string $ref
+   * @throws Exception if not pushed to master branch
+   */
   public function __construct($id, $name, $owner, $private, $created_at, $pushed_at, $master = "", $ref = "") {
     if ("refs/heads/$master" != $ref && $master != "")
       throw new \Exception("Didn't push to $master");
@@ -35,45 +81,60 @@ class Repository implements ResultObserver {
 
   /**
    * Implemented because of ResultObserver
+   * @param \model\Error $error
    */
   public function error(Error $error) {
     $this->errorDAL->create($error);
   }
 
+  /**
+   * @param \model\Commit $commit
+   */
   public function addCommit(Commit $commit) {
-    $commit->setRepositoryInformation("{$this->owner}/{$this->name}", $this->master);
+    $commit->setRepositoryInformation("{$this->owner}/{$this->name}",
+                                      $this->master);
     $this->errorDAL->deleteFiles($commit->getFiles());
-    var_dump($commit->getFiles());
-    var_dump($commit->getCode());
     $this->commits[] = $commit;
   }
 
-  public function tmpGetCode() {
-    foreach ($this->commits as $c) {
-      var_dump($c->getCode());
-    }
-  }
-
+  /**
+   * @return int
+   */
   public function getId() {
     return $this->id;
   }
 
+  /**
+   * @return string
+   */
   public function getName() {
     return $this->name;
   }
 
+  /**
+   * @return string
+   */
   public function getOwner() {
     return $this->owner;
   }
 
+  /**
+   * @return boolean
+   */
   public function isPrivate() {
     return $this->private;
   }
 
+  /**
+   * @return int
+   */
   public function getCreatedAt() {
     return $this->created_at;
   }
 
+  /**
+   * @return int
+   */
   public function getPushedAt() {
     return $this->pushed_at;
   }
