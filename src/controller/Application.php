@@ -9,6 +9,7 @@ require_once("../src/model/Repository.php");
 require_once("../src/model/Commit.php");
 require_once("../src/view/Github.php");
 require_once("../src/model/RepositoryDAL.php");
+require_once("../src/model/CodeErrorType.php");
 
 class Application {
   /**
