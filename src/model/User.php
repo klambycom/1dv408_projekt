@@ -9,16 +9,50 @@ class InvalidTokenException extends \Exception {
 }
 
 class User {
+  /**
+   * @var \Github\Client
+   */
   private $client;
+
+  /**
+   * @var string
+   */
   protected $tokenName = 'token';
 
+  /**
+   * @var string
+   */
   private $id;
+
+  /**
+   * @var string
+   */
   private $username;
+
+  /**
+   * @var string
+   */
   private $gravatar;
+
+  /**
+   * @var string
+   */
   private $url;
+
+  /**
+   * @var string
+   */
   private $name;
+
+  /**
+   * @var string
+   */
   private $bio;
 
+  /**
+   * @throws \model\NoTokenException when no session
+   * @throws \model\InvalidTokenException when invalid token in session
+   */
   public function __construct() {
     if (!isset($_SESSION[$this->tokenName]))
       throw new NoTokenException();
@@ -44,27 +78,47 @@ class User {
     }
   }
 
+  /**
+   * @return string
+   */
   public function getId() {
     return $this->id;
   }
 
+  /**
+   * @return string
+   */
   public function getUsername() {
     return $this->username;
   }
 
+  /**
+   * @param int $size
+   * @param string $default
+   * @return string
+   */
   public function getGravatar($size = 285, $default = 'mm') {
     $base = 'http://www.gravatar.com/avatar';
     return "{$base}/{$this->gravatar}?s={$size}&d={$default}";
   }
 
+  /**
+   * @return string
+   */
   public function getUrl() {
     return $this->url;
   }
 
+  /**
+   * @return string
+   */
   public function getName() {
     return $this->name;
   }
 
+  /**
+   * @return string
+   */
   public function getBio() {
     return $this->bio;
   }

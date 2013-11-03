@@ -38,7 +38,9 @@ class FindNamespace extends CodeAnalysis {
       $this->publish(new Error($this->code, CodeErrorType::MissingNamespace));
     } else if ($nrOfNamespaces > 1) {
       foreach ($this->namespaces as $key => $val) {
-        $this->publish(new Error($this->code, CodeErrorType::MoreThanOneNamespace, $val->getLine()));
+        $this->publish(new Error($this->code,
+                                 CodeErrorType::MoreThanOneNamespace,
+                                 $val->getLine()));
       }
     }
   }
