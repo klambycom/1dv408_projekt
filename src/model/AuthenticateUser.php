@@ -11,7 +11,7 @@ class AuthenticateUser extends User {
   public function __construct($code) {
     $matches = array();
     preg_match('/access_token=(.*)&scope=(.*)&token_type=(.*)/',
-               $result, $matches);
+               $this->postToGithub($code), $matches);
 
     if (empty($matches))
       throw new \Exception();
@@ -22,9 +22,10 @@ class AuthenticateUser extends User {
   }
 
   /**
+   * @param string $code
    * @return String
    */
-  private function postToGithub() {
+  private function postToGithub($code) {
     $settings = new Settings();
 
     $url = "https://github.com/login/oauth/access_token";

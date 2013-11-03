@@ -5,9 +5,19 @@ namespace model;
 require_once("../src/model/CodeAnalysis.php");
 
 class FindNamespace extends CodeAnalysis {
+  /**
+   * @var array
+   */
   private $namespaces;
+
+  /**
+   * @var \PHPParser_Node_Stmt_Namespace
+   */
   private $namespace;
 
+  /**
+   * @param \model\Code $code
+   */
   public function __construct(Code $code) {
     parent::__construct($code);
 
@@ -18,6 +28,9 @@ class FindNamespace extends CodeAnalysis {
     }
   }
 
+  /**
+   * Run all tests
+   */
   public function runTests() {
     $nrOfNamespaces = count($this->namespaces);
 
@@ -30,6 +43,9 @@ class FindNamespace extends CodeAnalysis {
     }
   }
 
+  /**
+   * @return string
+   */
   public function __toString() {
     if (isset($this->namespace))
       return $this->namespace->name->__toString();
@@ -37,6 +53,9 @@ class FindNamespace extends CodeAnalysis {
     return "No namespace";
   }
 
+  /**
+   * @return array
+   */
   public function getCode() {
     if (isset($this->namespace))
       return $this->namespace->stmts;
