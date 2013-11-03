@@ -7,7 +7,7 @@ require_once("../src/model/DataAccessLayer.php");
 
 class RepositoryDAL extends DataAccessLayer {
   /**
-   * Setup repository database
+   * Setup repository database.
    */
   public function setup() {
     $query = $this->pdo->prepare("
