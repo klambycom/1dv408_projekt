@@ -78,8 +78,6 @@ class Application {
                              $commit->{'modified'});
       $repository->addCommit($c);
 
-      $errorDAL->removeAll($c->getFiles());
-
       foreach ($c->getCode() as $code) {
         try {
           $facade = new \model\CodeAnalysisFacade($code);

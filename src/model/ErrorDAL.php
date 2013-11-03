@@ -33,22 +33,11 @@ class ErrorDAL extends DataAccessLayer {
     $this->errors[] = $error;
   }
 
-  public function removeAll($errors) {
-    foreach ($errors as $error) {
-      $query = $this->pdo->prepare("DELETE FROM `error`
-                                    WHERE `repository_id` = :id
-                                    AND `filename` = :filename");
-
-      $query->execute(array("id"       => $this->repository->getId(),
-                            "filename" => $error));
-    }
-  }
-
   public function deleteFiles($files) {
     foreach ($files as $file) {
       $query = $this->pdo->prepare("DELETE FROM `error`
-                                    WHERE `repository_id` = :id AND
-                                          `filename` = :filename");
+                                    WHERE `repository_id` = :id
+                                    AND `filename` = :filename");
 
       $query->execute(array("id"       => $this->repository->getId(),
                             "filename" => $file));

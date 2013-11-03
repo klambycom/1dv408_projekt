@@ -12,14 +12,11 @@ class MethodLength extends CodeAnalysis {
       $methods = $this->code->filter('\PHPParser_Node_Stmt_ClassMethod', $class->stmts);
 
       foreach ($methods as $method) {
-        var_dump($method);
         if (($method->getAttribute('endLine') -
           $method->getAttribute('startLine')) >= 30) {
-            var_dump($this->code);
-            var_dump($method->getLine());
             $this->publish(new Error($this->code,
-              CodeErrorType::MethodTooLong,
-              $method->getLine()));
+                           CodeErrorType::MethodTooLong,
+                           $method->getLine()));
         }
       }
     }

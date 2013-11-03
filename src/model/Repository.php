@@ -42,7 +42,9 @@ class Repository implements ResultObserver {
 
   public function addCommit(Commit $commit) {
     $commit->setRepositoryInformation("{$this->owner}/{$this->name}", $this->master);
-    $this->errorDAL->deleteFiles($commit->getRemovedFiles());
+    $this->errorDAL->deleteFiles($commit->getFiles());
+    var_dump($commit->getFiles());
+    var_dump($commit->getCode());
     $this->commits[] = $commit;
   }
 
