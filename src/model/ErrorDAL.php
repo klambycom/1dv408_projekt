@@ -41,22 +41,20 @@ class ErrorDAL extends DataAccessLayer {
    * @param \model\Error $error
    */
   public function create(Error $error) {
-    $remove = "DELETE FROM `error` WHERE `repository_id` = :id AND `filename` = :filename";
-    $add = "INSERT INTO `error` (
-              `repository_id`,
-              `filename`,
-              `error_type`,
-              `row`,
-              `code`
-            ) VALUES (
-              :repository_id,
-              :filename,
-              :error_type,
-              :row,
-              :code
-            )";
+    $query = $this->pdo->prepare("INSERT INTO `error` (
+                                   `repository_id`,
+                                   `filename`,
+                                   `error_type`,
+                                   `row`,
+                                   `code`
+                                 ) VALUES (
+                                   :repository_id,
+                                   :filename,
+                                   :error_type,
+                                   :row,
+                                   :code
+                                 )");
 
-    $query = $this->pdo->prepare($add);
     $query->execute(array("repository_id" => $this->repository->getId(),
                           "filename"      => $error->getFilename(),
                           "error_type"    => $error->getErrorType(),
