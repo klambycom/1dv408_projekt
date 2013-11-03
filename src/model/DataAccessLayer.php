@@ -5,6 +5,9 @@ namespace model;
 require_once("../src/model/Settings.php");
 
 abstract class DataAccessLayer {
+  /**
+   * @var \PDO
+   */
   protected $pdo;
 
   public function __construct() {
