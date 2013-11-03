@@ -8,14 +8,22 @@ require_once("../src/model/Repository.php");
 require_once("../src/model/DataAccessLayer.php");
 
 class ErrorDAL extends DataAccessLayer {
+  /**
+   * @var \model\Repository
+   */
   private $repository;
-  private $errors = array();
 
+  /**
+   * @param \model\Repository
+   */
   public function __construct(Repository $repository) {
     parent::__construct();
     $this->repository = $repository;
   }
 
+  /**
+   * Setup error database
+   */
   public function setup() {
     $query = $this->pdo->prepare("CREATE TABLE `error` (
       `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -29,10 +37,36 @@ class ErrorDAL extends DataAccessLayer {
     $query->execute();
   }
 
+  /**
+   * @param \model\Error $error
+   */
   public function create(Error $error) {
-    $this->errors[] = $error;
+    $remove = "DELETE FROM `error` WHERE `repository_id` = :id AND `filename` = :filename";
+    $add = "INSERT INTO `error` (
+              `repository_id`,
+              `filename`,
+              `error_type`,
+              `row`,
+              `code`
+            ) VALUES (
+              :repository_id,
+              :filename,
+              :error_type,
+              :row,
+              :code
+            )";
+
+    $query = $this->pdo->prepare($add);
+    $query->execute(array("repository_id" => $this->repository->getId(),
+                          "filename"      => $error->getFilename(),
+                          "error_type"    => $error->getErrorType(),
+                          "row"           => $error->getRow(),
+                          "code"          => $error->getCode()));
   }
 
+  /**
+   * @param array $files
+   */
   public function deleteFiles($files) {
     foreach ($files as $file) {
       $query = $this->pdo->prepare("DELETE FROM `error`
@@ -44,6 +78,9 @@ class ErrorDAL extends DataAccessLayer {
     }
   }
 
+  /**
+   * @return \model\SimpleError All errors for a repository
+   */
   public function all() {
     $query = $this->pdo->prepare("SELECT
                                     `filename`,
@@ -63,33 +100,5 @@ class ErrorDAL extends DataAccessLayer {
       throw new \Exception("no matching repository");
 
     return $result;
-  }
-
-  public function __destruct() {
-    $remove = "DELETE FROM `error` WHERE `repository_id` = :id AND `filename` = :filename";
-    $add = "INSERT INTO `error` (
-              `repository_id`,
-              `filename`,
-              `error_type`,
-              `row`,
-              `code`
-            ) VALUES (
-              :repository_id,
-              :filename,
-              :error_type,
-              :row,
-              :code
-            )";
-
-    if (!empty($this->errors)) {
-      foreach ($this->errors as $error) {
-        $query = $this->pdo->prepare($add);
-        $query->execute(array("repository_id" => $this->repository->getId(),
-                              "filename"      => $error->getFilename(),
-                              "error_type"    => $error->getErrorType(),
-                              "row"           => $error->getRow(),
-                              "code"          => $error->getCode()));
-      }
-    }
   }
 }
