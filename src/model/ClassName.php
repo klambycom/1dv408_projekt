@@ -93,7 +93,8 @@ class ClassName extends CodeAnalysis {
    */
   private function nrOfStmtsOutsideClass() {
     return count($this->code->getParsedCode()) -
-           count($this->code->filter('\PHPParser_Node_Expr_Include'));
+           count($this->code->filter('\PHPParser_Node_Expr_Include')) -
+           count($this->code->filter('\PHPParser_Node_Stmt_Interface'));
   }
   
   /**
