@@ -103,9 +103,3 @@ class ClassName extends CodeAnalysis {
     return strtolower($this->__toString()) != strtolower($this->findFilename());
   }
 }
-
-class Test {
-  public function __construct() {
-    // empty
-  }
-}
