@@ -5,14 +5,48 @@ namespace model;
 require_once("../src/model/Code.php");
 
 class Commit {
+  /**
+   * @var int
+   */
   private $id;
+
+  /**
+   * @var int
+   */
   private $timestamp;
+
+  /**
+   * @var array
+   */
   private $removed;
+
+  /**
+   * @var int
+   */
   private $repository;
+
+  /**
+   * @var string
+   */
   private $branch;
+
+  /**
+   * @var array
+   */
   private $code = array();
+
+  /**
+   * @var array
+   */
   private $changes = array();
 
+  /**
+   * @param int $id
+   * @param int $timestamp
+   * @param array $added
+   * @param array $removed
+   * @param array $modified
+   */
   public function __construct($id, $timestamp, $added, $removed, $modified) {
     $this->id = $id;
     $this->timestamp = $timestamp;
@@ -20,14 +54,23 @@ class Commit {
     $this->changes = array_merge($added, $modified);
   }
 
+  /**
+   * @return int
+   */
   public function getId() {
     return $this->id;
   }
 
+  /**
+   * @return int
+   */
   public function getTimestamp() {
     return $this->timestamp;
   }
 
+  /**
+   * @return array of \model\Code
+   */
   public function getCode() {
     $code = array();
     $url = "https://raw.github.com/{$this->repository}/{$this->branch}/";
@@ -42,27 +85,19 @@ class Commit {
     return $code;
   }
 
+  /**
+   * @return array of filenames
+   */
   public function getFiles() {
     return array_merge($this->removed, $this->changes);
   }
 
-  // @todo Remove?
-  public function getRemovedFiles() {
-    return $this->removed;
-  }
-
+  /**
+   * @param string $repository
+   * @param string $branch
+   */
   public function setRepositoryInformation($repository, $branch) {
     $this->repository = $repository;
     $this->branch = $branch;
-  }
-
-  // @todo Remove? Should'nt be here anyway.
-  public function getUrl() {
-    return "https://github.com/{$this->repository}/commit/{$this->id}";
-  }
-
-  // @todo Remove?
-  public function __toString() {
-    return "<p>Id: {$this->id}, Timestamp: {$this->timestamp}</p>";
   }
 }
