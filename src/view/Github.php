@@ -64,17 +64,17 @@ class Github {
   }
 
   /**
-   * @return int
+   * @return date
    */
   public function getCreatedAt() {
-    return strtotime($this->json->{'repository'}->{'created_at'});
+    return date('Y-m-d', $this->json->{'repository'}->{'created_at'});
   }
 
   /**
-   * @return int
+   * @return date
    */
   public function getPushedAt() {
-    return strtotime($this->json->{'repository'}->{'pushed_at'});
+    return date('Y-m-d', $this->json->{'repository'}->{'pushed_at'});
   }
 
   /**
