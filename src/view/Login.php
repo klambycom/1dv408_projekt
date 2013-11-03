@@ -5,10 +5,17 @@ namespace view;
 require_once("../src/view/Application.php");
 
 class Login extends Application {
+  /**
+   * @return string
+   */
   public function firstPage() {
     return $this->html("<h1>Hello, World</h1>");
   }
 
+  /**
+   * @param string $clientId
+   * @return string
+   */
   public function login($clientId) {
     return $this->html("
       <div class='jumbotron'>
@@ -24,14 +31,25 @@ class Login extends Application {
       </div>");
   }
 
+  /**
+   * @return boolean
+   */
   public function authCodeIsSet() {
     return isset($_GET['code']);
   }
 
+  /**
+   * @return string
+   */
   public function getAuthCode() {
     return $_GET['code'];
   }
 
+  /**
+   * @param \model\User $user
+   * @param array
+   * @return string
+   */
   public function userPage(\model\User $user, $repositories) {
     if (empty($repositories)) {
       $repos = "Du måste lägga till repositiorire!";
@@ -54,6 +72,10 @@ class Login extends Application {
       </div>");
   }
 
+  /**
+   * @param \model\User $user
+   * @return string
+   */
   private function userInfo(\model\User $user) {
     return "<aside id='user-info'>
               <img src='{$user->getGravatar()}' id='user-img'>
@@ -64,6 +86,10 @@ class Login extends Application {
             </aside>";
   }
 
+  /**
+   * @param \model\Repository $repo
+   * @return string
+   */
   private function repositoryInfo(\model\Repository $repo) {
     return "<div class='repository'>
               <div class='title'>
