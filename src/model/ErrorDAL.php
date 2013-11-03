@@ -34,16 +34,13 @@ class ErrorDAL extends DataAccessLayer {
   }
 
   public function removeAll($errors) {
-    $remove = "DELETE FROM `error` WHERE `repository_id` = :id AND `filename` = :filename";
+    foreach ($errors as $error) {
+      $query = $this->pdo->prepare("DELETE FROM `error`
+                                    WHERE `repository_id` = :id
+                                    AND `filename` = :filename");
 
-    $files = array_unique(array_map(function ($x) {
-      return $x->getFilename();
-    }, $errors));
-
-    foreach ($files as $file) {
-      $query = $this->pdo->prepare($remove);
       $query->execute(array("id"       => $this->repository->getId(),
-                            "filename" => $file));
+                            "filename" => $error));
     }
   }
 
@@ -96,8 +93,6 @@ class ErrorDAL extends DataAccessLayer {
             )";
 
     if (!empty($this->errors)) {
-      $this->removeAll($this->errors);
-
       foreach ($this->errors as $error) {
         $query = $this->pdo->prepare($add);
         $query->execute(array("repository_id" => $this->repository->getId(),

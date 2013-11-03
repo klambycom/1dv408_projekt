@@ -14,6 +14,7 @@ abstract class CodeAnalysis {
     $this->nrOfErrors = 0;
   }
 
+  // @todo Remove?
   public function nrOfErrors() {
     return $this->nrOfErrors;
   }

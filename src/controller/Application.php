@@ -68,6 +68,7 @@ class Application {
    */
   private function handlePayload() {
     $repository = $this->createRepository();
+    $errorDAL = new \model\ErrorDAL($repository);
 
     foreach ($this->github->getCommitsJson() as $commit) {
       $c = new \model\Commit($commit->{'id'},
@@ -76,6 +77,8 @@ class Application {
                              $commit->{'removed'},
                              $commit->{'modified'});
       $repository->addCommit($c);
+
+      $errorDAL->removeAll($c->getFiles());
 
       foreach ($c->getCode() as $code) {
         try {

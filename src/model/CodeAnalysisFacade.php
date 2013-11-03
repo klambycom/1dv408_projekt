@@ -14,7 +14,7 @@ class CodeAnalysisFacade extends CodeAnalysis {
   private $class;
 
   public function __construct(Code $code) {
-    if (preg_match('/(.*\/)*(index|default){1}\.php/', $code->getFileName()))
+    if (\preg_match('/(.*\/)*(index|default){1}\.php/', $code->getFileName()))
       throw new \Exception();
 
     parent::__construct($code);
@@ -33,10 +33,12 @@ class CodeAnalysisFacade extends CodeAnalysis {
     }
   }
 
+  // @todo Remove?
   public function getNamespace() {
     return $this->analysises[0]->__toString();
   }
 
+  // @todo Remove?
   public function getClassName() {
     return $this->analysises[1]->__toString();
   }
@@ -47,6 +49,7 @@ class CodeAnalysisFacade extends CodeAnalysis {
     }
   }
 
+  // @todo Remove? And from all CodeAnalysis.
   public function nrOfErrors() {
     $count = 0;
 
@@ -57,6 +60,7 @@ class CodeAnalysisFacade extends CodeAnalysis {
     return $count;
   }
 
+  // @todo Remove?
   public function debugGetErrors() {
     $errors = array();
 

@@ -42,6 +42,11 @@ class Commit {
     return $code;
   }
 
+  public function getFiles() {
+    return array_merge($this->removed, $this->changes);
+  }
+
+  // @todo Remove?
   public function getRemovedFiles() {
     return $this->removed;
   }
@@ -51,10 +56,12 @@ class Commit {
     $this->branch = $branch;
   }
 
+  // @todo Remove? Should'nt be here anyway.
   public function getUrl() {
     return "https://github.com/{$this->repository}/commit/{$this->id}";
   }
 
+  // @todo Remove?
   public function __toString() {
     return "<p>Id: {$this->id}, Timestamp: {$this->timestamp}</p>";
   }
