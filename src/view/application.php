@@ -33,7 +33,7 @@ class Application {
             <body>
               <div class='container'>
                 <div class='page-header'>
-                  <h1>Namnet</h1>
+                  <h1>Kodkvalitet</h1>
                   <p class='lead'>Mer text sen</p>
                 </div>
 

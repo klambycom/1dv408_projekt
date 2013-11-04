@@ -29,6 +29,13 @@ class Result extends Application implements \model\ResultObserver {
   }
 
   /**
+   * @return string
+   */
+  public function notFound() {
+    return $this->html("Bra kodkvalitet");
+  }
+
+  /**
    * @param \model\Error $error
    */
   public function error(\model\Error $error) {
