@@ -55,10 +55,7 @@ class User {
       throw new NoTokenException();
 
     try {
-      $this->client = new \Github\Client(
-        new \Github\HttpClient\CachedHttpClient(array(
-          'cache_dir' => '/tmp/github-api-cache'))
-      );
+      $this->client = new \Github\Client();
       
       $this->client->authenticate($_SESSION[$this->tokenName],
                                   \Github\Client::AUTH_HTTP_TOKEN);

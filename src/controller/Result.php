@@ -22,7 +22,7 @@ class Result {
   public function doRoute() {
     try {
       $repoDAL = new \model\RepositoryDAL();
-      $repo = $repoDAL->findByName($this->view->getPage());
+      $repo = $repoDAL->findById($this->view->getPage());
 
       $errorDAL = new \model\ErrorDAL($repo);
 

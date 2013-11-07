@@ -163,7 +163,8 @@ class Result extends Application implements \model\ResultObserver {
     $file = $error->getFilename();
     $row = $error->getRow();
 
-    return "'<pre>$code</pre>' i <span class='file'>$file</span> på
+    return "'<pre>" . htmlspecialchars($code) . "</pre>' i
+            <span class='file'>$file</span> på
             rad <span class='row-nr'>$row</span>";
   }
 

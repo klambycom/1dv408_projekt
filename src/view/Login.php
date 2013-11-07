@@ -94,8 +94,8 @@ class Login extends Application {
     return "<div class='repository'>
               <div class='title'>
                 <h3>
-                  <img src='/?controller={$repo->getName()}.png'>
-                  <a href='/?controller=resultat&page={$repo->getName()}'>
+                  <img src='/?controller={$repo->getId()}.png'>
+                  <a href='/?controller=resultat&page={$repo->getId()}'>
                   {$repo->getName()}
                   </a>
                 </h3>
@@ -109,7 +109,7 @@ class Login extends Application {
               <div class='body'>
                 <p class='img-link'>
                   Adress till bild som visar resultat är
-                  http://localhost:8080/img/{$repo->getId()}.png
+                  http://kodkvalitet.klamby.com/?controller={$repo->getId()}.png
                 </p>
               </div>
             </div>";

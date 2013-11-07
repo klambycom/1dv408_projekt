@@ -48,10 +48,10 @@ class RepositoryDAL extends DataAccessLayer {
    * @param string $name
    * @return \model\Repository
    */
-  public function findByName($name) {
+  public function findById($id) {
     $query = $this->pdo->prepare("SELECT * FROM `repository`
-                                  WHERE `name` = :name LIMIT 1");
-    $query->execute(array("name" => $name));
+                                  WHERE `id` = :id LIMIT 1");
+    $query->execute(array("id" => $id));
     $result = $query->fetch(\PDO::FETCH_ASSOC);
 
     if ($query->rowCount() < 1)
@@ -114,12 +114,12 @@ class RepositoryDAL extends DataAccessLayer {
    * @param string $name
    * @return int Number of errors
    */
-  public function nrOfErrors($name) {
+  public function nrOfErrors($id) {
     $query = $this->pdo->prepare("SELECT COUNT(*) AS rows FROM `repository`
                                   INNER JOIN `error`
                                   ON `repository`.`id` = `error`.`repository_id`
-                                  WHERE `repository`.`name` = :name");
-    $query->execute(array("name" => $name));
+                                  WHERE `repository`.`id` = :id");
+    $query->execute(array("id" => $id));
     $result = $query->fetch(\PDO::FETCH_ASSOC);
 
     return $result["rows"];

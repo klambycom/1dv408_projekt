@@ -116,9 +116,9 @@ class Application {
    * Show a image depending on nr of errors in repository
    * @param string $repoName
    */
-  private function getPicture($repoName) {
+  private function getPicture($id) {
     $rd = new \model\RepositoryDAL();
-    $nrOfErrors = $rd->nrOfErrors($repoName);
+    $nrOfErrors = $rd->nrOfErrors($id);
 
     if ($nrOfErrors > 0) {
       $file = 'images/Sad.png';
